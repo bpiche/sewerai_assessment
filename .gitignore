@@ -1,1 +1,7 @@
 /data/sewer-inspections-part1.jsonl
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.*.local
