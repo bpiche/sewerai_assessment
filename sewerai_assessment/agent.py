@@ -4,7 +4,7 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 from langchain_community.llms import Ollama
 from langchain_core.callbacks import StdOutCallbackHandler
 
-from sewerai_assessment.data_processor import load_jsonl_data
+from sewerai_assessment.data_processor import load_all_jsonl_data
 import os
 
 def create_dataframe_agent(df):

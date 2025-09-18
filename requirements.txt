@@ -7,3 +7,5 @@ fastapi
 uvicorn
 langchain-experimental
 tabulate
+boto3
+s3fs
