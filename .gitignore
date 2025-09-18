@@ -1,1 +1,9 @@
-/data/sewer-inspections-part1.jsonl
+data/*.jsonl
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.*.local
+__pycache__/
+sewerai_assessment/__pycache__/
