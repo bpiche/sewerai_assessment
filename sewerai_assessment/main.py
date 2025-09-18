@@ -1,0 +1,37 @@
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import uvicorn
+import pandas as pd
+
+from sewerai_assessment.data_processor import load_jsonl_data
+from sewerai_assessment.agent import create_dataframe_agent
+
+app = FastAPI()
+
+class QueryRequest(BaseModel):
+    query: str
+
+@app.on_event("startup")
+async def startup_event():
+    # Load and sample data once on startup
+    file_path = './data/sewer-inspections-part1.jsonl'
+    df = load_jsonl_data(file_path)
+    app.state.sampled_df = df.sample(frac=0.1, random_state=42)
+    print(f"Sampled down to {len(app.state.sampled_df)} records (10% of original) for API use.")
+    
+    # Initialize the agent once on startup
+    print("Initializing Pandas DataFrame Agent for API. Ensure Ollama server is running and 'llama3' model is pulled.")
+    app.state.agent = create_dataframe_agent(app.state.sampled_df)
+    print("Pandas DataFrame Agent initialized for API.")
+
+
+@app.post("/query")
+async def query_data(request: QueryRequest):
+    try:
+        response = app.state.agent.run(request.query)
+        return {"response": response}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

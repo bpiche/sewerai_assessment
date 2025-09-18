@@ -1,0 +1,9 @@
+pandas
+langchain
+pydantic>=2.7.0
+langchain-community
+tqdm
+fastapi
+uvicorn
+langchain-experimental
+tabulate
